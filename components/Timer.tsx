@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { formatTime } from "../utils/time";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Audio } from "expo-av";
+import { Vibration } from "react-native";
 
 export type TimerMode = "focus" | "shortBreak" | "longBreak";
 
@@ -27,8 +29,22 @@ export const Timer: React.FC<TimerProps> = ({
   const [completedSessions, setCompletedSessions] = useState(0);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const soundRef = useRef<Audio.Sound | null>(null);
 
-  // Load completed sessions
+  useEffect(() => {
+    // Load sound once
+    const loadSound = async () => {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../assets/alarm.mp3")
+      );
+      soundRef.current = sound;
+    };
+    loadSound();
+    return () => {
+      if (soundRef.current) soundRef.current.unloadAsync();
+    };
+  }, []);
+
   useEffect(() => {
     (async () => {
       const saved = await AsyncStorage.getItem("completedSessions");
@@ -36,12 +52,10 @@ export const Timer: React.FC<TimerProps> = ({
     })();
   }, []);
 
-  // Save sessions
   useEffect(() => {
     AsyncStorage.setItem("completedSessions", completedSessions.toString());
   }, [completedSessions]);
 
-  // Timer logic
   useEffect(() => {
     if (isRunning && secondsLeft > 0) {
       intervalRef.current = setInterval(() => {
@@ -58,8 +72,11 @@ export const Timer: React.FC<TimerProps> = ({
     };
   }, [isRunning, secondsLeft]);
 
-  const handleTimerComplete = () => {
+  const handleTimerComplete = async () => {
     setIsRunning(false);
+
+    if (soundRef.current) await soundRef.current.replayAsync();
+    Vibration.vibrate(1000);
 
     if (mode === "focus") {
       const newSessions = completedSessions + 1;
@@ -76,6 +93,8 @@ export const Timer: React.FC<TimerProps> = ({
       setMode("focus");
       setSecondsLeft(settings.focusDuration * 60);
     }
+
+    setIsRunning(true);
   };
 
   const handleStart = () => setIsRunning(true);
