@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -16,6 +16,7 @@ import {
   SaveIcon,
   BackIcon,
 } from "../icons/AppIcons";
+import { NumberControl } from "./NumberControl";
 
 interface SettingsScreenProps {
   settings: Settings;
@@ -38,28 +39,29 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
   const [sessionsBeforeLongBreak, setSessionsBeforeLongBreak] = useState(
     settings.sessionsBeforeLongBreak
   );
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSave = () => {
+    if (
+      focusDuration <= 0 ||
+      shortBreakDuration <= 0 ||
+      longBreakDuration <= 0 ||
+      sessionsBeforeLongBreak <= 0
+    ) {
+      alert("⚠️ Values cannot be 0. Please set them to 1 or more.");
+      return;
+    }
+
     const newSettings: Settings = {
       focusDuration,
       shortBreakDuration,
       longBreakDuration,
       sessionsBeforeLongBreak,
     };
+
     onSave(newSettings);
     onBack();
   };
-
-  const increment = (value: number, setter: (val: number) => void) => {
-    setter(value + 1);
-  };
-
-  const decrement = (value: number, setter: (val: number) => void) => {
-    if (value > 1) {
-      setter(value - 1);
-    }
-  };
-
   return (
     <ScrollView
       style={styles.container}
@@ -78,24 +80,11 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           <FocusIcon size={24} color="#FF8FA3" />
           <Text style={styles.settingLabel}>Focus Duration</Text>
         </View>
-        <View style={styles.controlContainer}>
-          <TouchableOpacity
-            onPress={() => decrement(focusDuration, setFocusDuration)}
-            style={styles.controlButton}
-          >
-            <Text style={styles.controlButtonText}>−</Text>
-          </TouchableOpacity>
-          <View style={styles.valueContainer}>
-            <Text style={styles.valueText}>{focusDuration}</Text>
-            <Text style={styles.valueUnit}>min</Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => increment(focusDuration, setFocusDuration)}
-            style={styles.controlButton}
-          >
-            <Text style={styles.controlButtonText}>+</Text>
-          </TouchableOpacity>
-        </View>
+        <NumberControl
+          value={focusDuration}
+          setter={setFocusDuration}
+          unit="min"
+        />
       </View>
 
       <View style={styles.settingItem}>
@@ -103,24 +92,12 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           <ShortBreakIcon size={24} color="#81C784" />
           <Text style={styles.settingLabel}>Short Break</Text>
         </View>
-        <View style={styles.controlContainer}>
-          <TouchableOpacity
-            onPress={() => decrement(shortBreakDuration, setShortBreakDuration)}
-            style={styles.controlButton}
-          >
-            <Text style={styles.controlButtonText}>−</Text>
-          </TouchableOpacity>
-          <View style={styles.valueContainer}>
-            <Text style={styles.valueText}>{shortBreakDuration}</Text>
-            <Text style={styles.valueUnit}>min</Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => increment(shortBreakDuration, setShortBreakDuration)}
-            style={styles.controlButton}
-          >
-            <Text style={styles.controlButtonText}>+</Text>
-          </TouchableOpacity>
-        </View>
+
+        <NumberControl
+          value={shortBreakDuration}
+          setter={setShortBreakDuration}
+          unit="min"
+        />
       </View>
 
       <View style={styles.settingItem}>
@@ -128,24 +105,11 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           <LongBreakIcon size={24} color="#64B5F6" />
           <Text style={styles.settingLabel}>Long Break</Text>
         </View>
-        <View style={styles.controlContainer}>
-          <TouchableOpacity
-            onPress={() => decrement(longBreakDuration, setLongBreakDuration)}
-            style={styles.controlButton}
-          >
-            <Text style={styles.controlButtonText}>−</Text>
-          </TouchableOpacity>
-          <View style={styles.valueContainer}>
-            <Text style={styles.valueText}>{longBreakDuration}</Text>
-            <Text style={styles.valueUnit}>min</Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => increment(longBreakDuration, setLongBreakDuration)}
-            style={styles.controlButton}
-          >
-            <Text style={styles.controlButtonText}>+</Text>
-          </TouchableOpacity>
-        </View>
+        <NumberControl
+          value={longBreakDuration}
+          setter={setLongBreakDuration}
+          unit="min"
+        />
       </View>
 
       <View style={styles.settingItem}>
@@ -153,28 +117,12 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           <SessionsIcon size={24} color="#FFA000" />
           <Text style={styles.settingLabel}>Sessions Before Long Break</Text>
         </View>
-        <View style={styles.controlContainer}>
-          <TouchableOpacity
-            onPress={() =>
-              decrement(sessionsBeforeLongBreak, setSessionsBeforeLongBreak)
-            }
-            style={styles.controlButton}
-          >
-            <Text style={styles.controlButtonText}>−</Text>
-          </TouchableOpacity>
-          <View style={styles.valueContainer}>
-            <Text style={styles.valueText}>{sessionsBeforeLongBreak}</Text>
-            <Text style={styles.valueUnit}>sessions</Text>
-          </View>
-          <TouchableOpacity
-            onPress={() =>
-              increment(sessionsBeforeLongBreak, setSessionsBeforeLongBreak)
-            }
-            style={styles.controlButton}
-          >
-            <Text style={styles.controlButtonText}>+</Text>
-          </TouchableOpacity>
-        </View>
+        <NumberControl
+          value={sessionsBeforeLongBreak}
+          setter={setSessionsBeforeLongBreak}
+          unit="sessions"
+          min={1}
+        />
       </View>
 
       <View style={styles.actionButtons}>
@@ -244,40 +192,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#333",
     flex: 1,
-  },
-  controlContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 16,
-  },
-  controlButton: {
-    width: 60,
-    height: 60,
-    borderRadius: 16,
-    backgroundColor: "#F5F5F5",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  controlButtonText: {
-    fontSize: 32,
-    fontWeight: "700",
-    color: "#333",
-  },
-  valueContainer: {
-    minWidth: 100,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  valueText: {
-    fontSize: 36,
-    fontWeight: "700",
-    color: "#333",
-  },
-  valueUnit: {
-    fontSize: 14,
-    color: "#757575",
-    marginTop: 4,
   },
   actionButtons: {
     marginTop: 20,

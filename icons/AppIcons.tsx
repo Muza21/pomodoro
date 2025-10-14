@@ -1,5 +1,5 @@
 import React from "react";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Entypo, Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 type IoniconProps = Omit<React.ComponentProps<typeof Ionicons>, "name">;
 type MaterialIconProps = Omit<
@@ -39,4 +39,10 @@ export const BackIcon = (props: IoniconProps) => (
 );
 export const SessionsIcon = (props: IoniconProps) => (
   <Ionicons {...props} name="list" />
+);
+export const PlusIcon = (props: IoniconProps) => (
+  <Entypo {...props} name="plus" />
+);
+export const MinusIcon = (props: IoniconProps) => (
+  <Entypo {...props} name="minus" />
 );

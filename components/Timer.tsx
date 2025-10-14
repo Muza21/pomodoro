@@ -41,6 +41,22 @@ export const Timer: React.FC<TimerProps> = ({
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const soundRef = useRef<Audio.Sound | null>(null);
+  const [lastSessionDay, setLastSessionDay] = useState(
+    new Date().toDateString()
+  );
+
+  useEffect(() => {
+    const checkDayReset = async () => {
+      const today = new Date().toDateString();
+      if (lastSessionDay !== today) {
+        setCompletedSessions(0);
+        setLastSessionDay(today);
+        await AsyncStorage.setItem("completedSessions", "0");
+        await AsyncStorage.setItem("lastSessionDay", today);
+      }
+    };
+    checkDayReset();
+  }, [lastSessionDay]);
 
   useEffect(() => {
     const loadSound = async () => {
