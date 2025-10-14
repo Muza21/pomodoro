@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Timer, Settings } from "./components/Timer";
-import { SettingsScreen } from "./components/SettingsScreen";
+import { Timer } from "./components/Timer/Timer";
+import { SettingsScreen } from "./components/SettingsScreen/SettingsScreen";
+import { Settings } from "./types";
 
 type Screen = "Timer" | "Settings";
 

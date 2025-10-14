@@ -1,12 +1,6 @@
 import React, { useRef, useState } from "react";
-import {
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-} from "react-native";
-import { Settings } from "./Timer";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Settings } from "../../types";
 import {
   SettingsIcon,
   FocusIcon,
@@ -15,9 +9,9 @@ import {
   SessionsIcon,
   SaveIcon,
   BackIcon,
-} from "../icons/AppIcons";
-import { NumberControl } from "./NumberControl";
-
+} from "../../icons/AppIcons";
+import { NumberControl } from "../NumberControl/NumberControl";
+import { settingsScreenStyles as styles } from "./SettingsScreen.styles";
 interface SettingsScreenProps {
   settings: Settings;
   onSave: (newSettings: Settings) => void;
@@ -138,100 +132,3 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F5F5F5",
-  },
-  contentContainer: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  header: {
-    marginBottom: 40,
-    alignItems: "center",
-  },
-  settingsTitle: {
-    paddingTop: 20,
-    paddingHorizontal: 28,
-    borderRadius: 20,
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 8,
-    marginBottom: 12,
-  },
-  settingsTitleText: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#333",
-  },
-  headerSubtitle: {
-    fontSize: 16,
-    color: "#757575",
-  },
-  settingItem: {
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 20,
-    marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  settingLabelContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-    gap: 12,
-  },
-  settingLabel: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
-    flex: 1,
-  },
-  actionButtons: {
-    marginTop: 20,
-    gap: 12,
-  },
-  saveButton: {
-    backgroundColor: "#4CAF50",
-    borderRadius: 20,
-    paddingVertical: 18,
-    paddingHorizontal: 32,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#4CAF50",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 4,
-    flexDirection: "row",
-    gap: 6,
-  },
-  saveButtonText: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "white",
-  },
-  backButton: {
-    backgroundColor: "white",
-    borderRadius: 20,
-    paddingVertical: 18,
-    paddingHorizontal: 32,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 2,
-    borderColor: "#E0E0E0",
-    flexDirection: "row",
-    gap: 6,
-  },
-  backButtonText: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#757575",
-  },
-});
