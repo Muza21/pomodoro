@@ -123,6 +123,12 @@ export const Timer: React.FC<TimerProps> = ({
     setIsRunning(true);
   };
 
+  useEffect(() => {
+    if (mode === "focus") setSecondsLeft(settings.focusDuration * 60);
+    if (mode === "shortBreak") setSecondsLeft(settings.shortBreakDuration * 60);
+    if (mode === "longBreak") setSecondsLeft(settings.longBreakDuration * 60);
+  }, [settings, mode]);
+
   const handleStart = () => setIsRunning(true);
   const handlePause = () => setIsRunning(false);
 
