@@ -1,5 +1,10 @@
 import React from "react";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Entypo,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 
 type IoniconProps = Omit<React.ComponentProps<typeof Ionicons>, "name">;
 type MaterialIconProps = Omit<
@@ -23,13 +28,13 @@ export const SettingsIcon = (props: IoniconProps) => (
   <Ionicons {...props} name="settings" />
 );
 export const FocusIcon = (props: IoniconProps) => (
-  <Ionicons {...props} name="locate" />
+  <MaterialCommunityIcons {...props} name="brain" />
 );
 export const ShortBreakIcon = (props: IoniconProps) => (
   <Ionicons {...props} name="cafe" />
 );
 export const LongBreakIcon = (props: IoniconProps) => (
-  <Ionicons {...props} name="moon" />
+  <MaterialCommunityIcons {...props} name="timer-sand-full" />
 );
 export const SaveIcon = (props: IoniconProps) => (
   <Ionicons {...props} name="checkmark" />
@@ -39,4 +44,10 @@ export const BackIcon = (props: IoniconProps) => (
 );
 export const SessionsIcon = (props: IoniconProps) => (
   <Ionicons {...props} name="list" />
+);
+export const PlusIcon = (props: IoniconProps) => (
+  <Entypo {...props} name="plus" />
+);
+export const MinusIcon = (props: IoniconProps) => (
+  <Entypo {...props} name="minus" />
 );
