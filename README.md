@@ -4,6 +4,16 @@ A beautifully designed Pomodoro timer built with **React Native + Expo**, featur
 
 ---
 
+## 📑 Table of Contents
+
+- [Tech Stack](#-tech-stack)
+- [Features](#-features)
+- [How to Try This Project Out](#-how-to-try-this-project-out)
+- [Screenshots](#-screenshots)
+- [Demo](#-demo)
+
+---
+
 ## 🚀 Tech Stack
 
 - **React Native (Expo)**
