@@ -30,13 +30,39 @@ export const useTimer = (settings: Settings) => {
 
   useEffect(() => {
     (async () => {
-      const saved = await AsyncStorage.getItem("completedSessions");
-      if (saved) setCompletedSessions(parseInt(saved, 10));
+      const saved = await AsyncStorage.getItem("completedSessionsData");
+      const today = new Date().toDateString();
+
+      if (saved) {
+        const { count, date } = JSON.parse(saved);
+
+        if (date !== today) {
+          setCompletedSessions(0);
+          await AsyncStorage.setItem(
+            "completedSessionsData",
+            JSON.stringify({ count: 0, date: today })
+          );
+        } else {
+          setCompletedSessions(count);
+        }
+      } else {
+        await AsyncStorage.setItem(
+          "completedSessionsData",
+          JSON.stringify({ count: 0, date: today })
+        );
+      }
     })();
   }, []);
 
   useEffect(() => {
-    AsyncStorage.setItem("completedSessions", completedSessions.toString());
+    const saveSessions = async () => {
+      const today = new Date().toDateString();
+      await AsyncStorage.setItem(
+        "completedSessionsData",
+        JSON.stringify({ count: completedSessions, date: today })
+      );
+    };
+    saveSessions();
   }, [completedSessions]);
 
   useEffect(() => {
@@ -119,7 +145,7 @@ export const useTimer = (settings: Settings) => {
         setSecondsLeft(settings.shortBreakDuration * 60);
       if (mode === "longBreak") setSecondsLeft(settings.longBreakDuration * 60);
     }
-  }, [settings, mode, isRunning]);
+  }, [settings, mode]);
 
   const handleTimerComplete = async () => {
     setIsRunning(false);
