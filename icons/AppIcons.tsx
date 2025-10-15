@@ -37,7 +37,7 @@ export const LongBreakIcon = (props: IoniconProps) => (
   <MaterialCommunityIcons {...props} name="timer-sand-full" />
 );
 export const SaveIcon = (props: IoniconProps) => (
-  <Ionicons {...props} name="checkmark" />
+  <Ionicons {...props} name="checkmark-sharp" />
 );
 export const BackIcon = (props: IoniconProps) => (
   <Ionicons {...props} name="arrow-back" />

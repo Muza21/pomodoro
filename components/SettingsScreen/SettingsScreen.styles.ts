@@ -10,26 +10,30 @@ export const settingsScreenStyles = StyleSheet.create({
     paddingBottom: 40,
   },
   header: {
-    marginBottom: 40,
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
+    paddingTop: 24,
+    marginBottom: 16,
+  },
+  headerButton: {
+    padding: 8,
   },
   settingsTitle: {
-    paddingTop: 20,
-    paddingHorizontal: 28,
-    borderRadius: 20,
-    alignItems: "center",
     flexDirection: "row",
+    alignItems: "center",
     gap: 8,
-    marginBottom: 12,
   },
   settingsTitleText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "700",
     color: "#333",
   },
   headerSubtitle: {
-    fontSize: 16,
+    textAlign: "center",
+    fontSize: 15,
     color: "#757575",
+    marginBottom: 20,
   },
   settingItem: {
     backgroundColor: "white",
@@ -53,10 +57,6 @@ export const settingsScreenStyles = StyleSheet.create({
     fontWeight: "600",
     color: "#333",
     flex: 1,
-  },
-  actionButtons: {
-    marginTop: 20,
-    gap: 12,
   },
   saveButton: {
     backgroundColor: "#4CAF50",

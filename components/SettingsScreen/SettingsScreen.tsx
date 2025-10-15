@@ -62,11 +62,18 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
       contentContainerStyle={styles.contentContainer}
     >
       <View style={styles.header}>
+        <TouchableOpacity onPress={onBack} style={styles.headerButton}>
+          <BackIcon size={28} color="#424242" />
+        </TouchableOpacity>
+
         <View style={styles.settingsTitle}>
           <SettingsIcon size={20} color="#424242" />
           <Text style={styles.settingsTitleText}>Settings</Text>
         </View>
-        <Text style={styles.headerSubtitle}>Customize your Pomodoro timer</Text>
+
+        <TouchableOpacity onPress={handleSave} style={styles.headerButton}>
+          <SaveIcon size={28} color="#4CAF50" />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.settingItem}>
@@ -117,17 +124,6 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           unit="sessions"
           min={1}
         />
-      </View>
-
-      <View style={styles.actionButtons}>
-        <TouchableOpacity onPress={handleSave} style={styles.saveButton}>
-          <SaveIcon size={20} color="white" />
-          <Text style={styles.saveButtonText}> Save Settings</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onBack} style={styles.backButton}>
-          <BackIcon size={20} color="#757575" />
-          <Text style={styles.backButtonText}> Back</Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );
