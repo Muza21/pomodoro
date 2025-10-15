@@ -38,8 +38,6 @@ cd pomodoro
 
 ```bash
 npm install
-# or
-yarn install
 ```
 
 ### 3. Start the Expo development server
